@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игровые Новости</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212; /* Темный фон страницы */
+            color: #e0e0e0; /* Светлый текст */
+            display: flex;
+            justify-content: center;
+        }
+        /* Header Styles */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #1e1e1e; /* Темный фон шапки */
+            border-bottom: 1px solid #333; /* Темная граница */
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-sizing: border-box;
+            justify-content: center;
+        }
+        .header .logo {
+            display: flex;
+            align-items: center;
+        }
+        .header .logo img {
+            height: 30px;
+            margin-right: 10px;
+        }
+        .header .logo span {
+            font-size: 18px;
+            color: #e0e0e0;
+        }
+        .header .sections {
+            display: flex;
+            align-items: center;
+            margin: 0 410px;
+        }
+        .header .sections .section {
+            margin: 0 10px;
+        }
+        .header .sections .section a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .header .sections .section a:hover {
+            background-color: #333;
+            color: #e0e0e0;
+        }
+        .header .icons img {
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 80px;
+        }
+        .sidebar {
+            width: 250px;
+            padding: 20px;
+            background-color: #1e1e1e;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        .sidebar a {
+            color: #e0e0e0;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .sidebar a:hover {
+            background-color: #333;
+        }
+        .sidebar .icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        body {
+  height: 100%;
+  margin: 0;
+}
+/*Задаём глобальные параметры*/
+body {
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/*Делаем границу вокруг игрового поля*/
+canvas {
+  border: 1px solid white;
+}
+
+        
+    </style>
+    
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo">
+            <a href="#"><img src="logotip-removebg-preview.png" alt="Logo"></a>
+            <span>GAME NEWS</span>
+        </div>
+        <div class="sections">
+            <div class="section">
+                <a href="Moer.html">Игра 1</a>
+            </div>
+            <div class="section">
+                <a href="More2.html">Игра 2</a>
+            </div>
+        </div>
+        <div class="icons">
+            <a href="Register.html">
+                <img class="ProfilLogo" src="3d-render-of-avatar-character_23-2150611746.jpg" alt="Profile Image">
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <a href="Main.php"><span class="icon">🏠</span> Home</a>
+            <a href="#"><span class="icon">🔍</span> Explore</a>
+            <a href="Messages.html"><span class="icon">✉️</span> Messages</a>
+            <a href="#"><span class="icon">🔖</span> Bookmarks</a>
+            <a href="Profile.html"><span class="icon">👤</span> Profile</a>
+            <a href="Settings.html"><span class="icon">⚙️</span> Settings</a>
+            <a href="Moer.html"><span class="icon">🔽</span> More</a>
+        </div>
+
+        <canvas id="game" width="900" height="400"></canvas>
+
+    <script>
+           // Поле, на котором всё будет происходить, — тоже как бы переменная
+var canvas = document.getElementById('game');
+// Классическая змейка — двухмерная, сделаем такую же
+var context = canvas.getContext('2d');
+// Размер одной клеточки на поле — 16 пикселей
+var grid = 16;
+// Служебная переменная, которая отвечает за скорость змейки
+var count = 0;
+// А вот и сама змейка
+var snake = {
+  // Начальные координаты
+  x: 160,
+  y: 160,
+  // Скорость змейки — в каждом новом кадре змейка смещается по оси Х или У. На старте будет двигаться горизонтально, поэтому скорость по игреку равна нулю.
+  dx: grid,
+  dy: 0,
+  // Тащим за собой хвост, который пока пустой
+  cells: [],
+  // Стартовая длина змейки — 4 клеточки
+  maxCells: 4
+};
+// А это — еда. Представим, что это красные яблоки.
+var apple = {
+  // Начальные координаты яблока
+  x: 320,
+  y: 320
+};
+// Делаем генератор случайных чисел в заданном диапазоне
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+// Игровой цикл — основной процесс, внутри которого будет всё происходить
+function loop() {
+  // Дальше будет хитрая функция, которая замедляет скорость игры с 60 кадров в секунду до 15. Для этого она пропускает три кадра из четырёх, то есть срабатывает каждый четвёртый кадр игры. Было 60 кадров в секунду, станет 15.
+  requestAnimationFrame(loop);
+  // Игровой код выполнится только один раз из четырёх, в этом и суть замедления кадров, а пока переменная count меньше четырёх, код выполняться не будет.
+  if (++count < 4) {
+    return;
+  }
+  // Обнуляем переменную скорости
+  count = 0;
+  // Очищаем игровое поле
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  // Двигаем змейку с нужной скоростью
+  snake.x += snake.dx;
+  snake.y += snake.dy;
+  // Если змейка достигла края поля по горизонтали — продолжаем её движение с противоположной стороны
+  if (snake.x < 0) {
+    snake.x = canvas.width - grid;
+  }
+  else if (snake.x >= canvas.width) {
+    snake.x = 0;
+  }
+  // Делаем то же самое для движения по вертикали
+  if (snake.y < 0) {
+    snake.y = canvas.height - grid;
+  }
+  else if (snake.y >= canvas.height) {
+    snake.y = 0;
+  }
+  // Продолжаем двигаться в выбранном направлении. Голова всегда впереди, поэтому добавляем её координаты в начало массива, который отвечает за всю змейку.
+  snake.cells.unshift({ x: snake.x, y: snake.y });
+  // Сразу после этого удаляем последний элемент из массива змейки, потому что она движется и постоянно особождает клетки после себя
+  if (snake.cells.length > snake.maxCells) {
+    snake.cells.pop();
+  }
+  // Рисуем еду — красное яблоко
+  context.fillStyle = 'red';
+  context.fillRect(apple.x, apple.y, grid - 1, grid - 1);
+  // Одно движение змейки — один новый нарисованный квадратик 
+  context.fillStyle = 'green';
+  // Обрабатываем каждый элемент змейки
+  snake.cells.forEach(function (cell, index) {
+    // Чтобы создать эффект клеточек, делаем зелёные квадратики меньше на один пиксель, чтобы вокруг них образовалась чёрная граница
+    context.fillRect(cell.x, cell.y, grid - 1, grid - 1);
+    // Если змейка добралась до яблока...
+    if (cell.x === apple.x && cell.y === apple.y) {
+      // увеличиваем длину змейки
+      snake.maxCells++;
+      // Рисуем новое яблочко
+      // Помним, что размер холста у нас 400x400, при этом он разбит на ячейки — 25 в каждую сторону
+      apple.x = getRandomInt(0, 25) * grid;
+      apple.y = getRandomInt(0, 25) * grid;
+    }
+    // Проверяем, не столкнулась ли змея сама с собой
+    // Для этого перебираем весь массив и смотрим, есть ли у нас в массиве змейки две клетки с одинаковыми координатами 
+    for (var i = index + 1; i < snake.cells.length; i++) {
+      // Если такие клетки есть — начинаем игру заново
+      if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+        // Задаём стартовые параметры основным переменным
+        snake.x = 160;
+        snake.y = 160;
+        snake.cells = [];
+        snake.maxCells = 4;
+        snake.dx = grid;
+        snake.dy = 0;
+        // Ставим яблочко в случайное место
+        apple.x = getRandomInt(0, 25) * grid;
+        apple.y = getRandomInt(0, 25) * grid;
+      }
+    }
+  });
+}
+// Смотрим, какие нажимаются клавиши, и реагируем на них нужным образом
+document.addEventListener('keydown', function (e) {
+  // Дополнительно проверяем такой момент: если змейка движется, например, влево, то ещё одно нажатие влево или вправо ничего не поменяет — змейка продолжит двигаться в ту же сторону, что и раньше. Это сделано для того, чтобы не разворачивать весь массив со змейкой на лету и не усложнять код игры.
+  // Стрелка влево
+  // Если нажата стрелка влево, и при этом змейка никуда не движется по горизонтали…
+  if (e.which === 37 && snake.dx === 0) {
+    // то даём ей движение по горизонтали, влево, а вертикальное — останавливаем
+    // Та же самая логика будет и в остальных кнопках
+    snake.dx = -grid;
+    snake.dy = 0;
+  }
+  // Стрелка вверх
+  else if (e.which === 38 && snake.dy === 0) {
+    snake.dy = -grid;
+    snake.dx = 0;
+  }
+  // Стрелка вправо
+  else if (e.which === 39 && snake.dx === 0) {
+    snake.dx = grid;
+    snake.dy = 0;
+  }
+  // Стрелка вниз
+  else if (e.which === 40 && snake.dy === 0) {
+    snake.dy = grid;
+    snake.dx = 0;
+  }
+});
+requestAnimationFrame(loop);
+    </script>
+</body>
+</html>

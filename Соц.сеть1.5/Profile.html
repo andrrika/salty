@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль - LIVE 1.1</title>
+    <style>
+        :root {
+            --background-color: #121212;
+            --text-color: #e0e0e0;
+            --header-bg-color: #1e1e1e;
+            --border-color: #333;
+            --input-bg-color: #2e2e2e;
+            --button-bg-color: #333;
+        }
+
+        body.light-theme {
+            --background-color: #ffffff;
+            --text-color: #121212;
+            --header-bg-color: #f0f0f0;
+            --border-color: #ccc;
+            --input-bg-color: #e0e0e0;
+            --button-bg-color: #ddd;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: var(--header-bg-color);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-sizing: border-box;
+            justify-content: center;
+        }
+        .header .logo {
+            display: flex;
+            align-items: center;
+        }
+        .header .logo img {
+            height: 30px;
+            margin-right: 10px;
+        }
+        .header .logo span {
+            font-size: 18px;
+            color: var(--text-color);
+        }
+        .header .sections {
+            display: flex;
+            align-items: center;
+            margin: 0 410px;
+        }
+        .header .sections .section {
+            margin: 0 10px;
+        }
+        .header .sections .section a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .header .sections .section a:hover {
+            background-color: var(--border-color);
+            color: var(--text-color);
+        }
+        .header .icons img {
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .container {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 80px;
+        }
+        .sidebar {
+            width: 250px;
+            padding: 20px;
+            background-color: var(--header-bg-color);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        .sidebar a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .sidebar a:hover {
+            background-color: var(--border-color);
+        }
+        .sidebar .icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+        /* Profile Section */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .profile-header .profile-info {
+            display: flex;
+            align-items: center;
+        }
+        .profile-header .profile-info img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-right: 20px;
+            border: 2px solid var(--border-color);
+        }
+        .profile-header .profile-info .user-details {
+            color: var(--text-color);
+        }
+        .profile-header .profile-info .user-details h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .profile-header .profile-info .user-details p {
+            margin: 5px 0;
+        }
+        .profile-header .profile-stats {
+            display: flex;
+            justify-content: space-between;
+            width: 60%;
+        }
+        .profile-header .profile-stats div {
+            text-align: center;
+        }
+        .profile-header .profile-stats div h3 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .profile-header .profile-stats div p {
+            margin: 0;
+            font-size: 16px;
+        }
+        /* Post Grid */
+        .post-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .post-grid .post {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .post-grid .post img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .post-grid .post:hover img {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow: auto;
+            position: relative;
+        }
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo">
+            <a href="#"><img src="logotip-removebg-preview.png" alt="Logo"></a>
+            <span>LIVE</span>
+        </div>
+        <div class="sections">
+            <div class="section">
+                <a href="#recommendations">Рекомендации</a>
+            </div>
+            <div class="section">
+                <a href="#for-you">Для вас</a>
+            </div>
+        </div>
+        <div class="icons">
+            <a href="#profile">
+                <img class="ProfilLogo" src="3d-render-of-avatar-character_23-2150611746.jpg" alt="Profile Image">
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <a href="Main.php"><span class="icon">🏠</span> Home</a>
+            <a href="#"><span class="icon">🔍</span> Explore</a>
+            <a href="Messages.html"><span class="icon">✉️</span> Messages</a>
+            <a href="#"><span class="icon">🔖</span> Bookmarks</a>
+            <a href="Profile.html"><span class="icon">👤</span> Profile</a>
+            <a href="Settings.html"><span class="icon">⚙️</span> Settings</a>
+            <a href="#"><span class="icon">🔽</span> More</a>
+        </div>
+
+        <!-- Main Content for Profile -->
+        <div class="main-content">
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-info">
+                    <img src="3d-render-of-avatar-character_23-2150611746.jpg" alt="Profile Image">
+                    <div class="user-details">
+                        <h2>Андрей Пирожков</h2>
+                        <p>@pirozkov_a67502</p>
+                        <p>Личный блог</p>
+                    </div>
+                </div>
+                <div class="profile-stats">
+                    <div>
+                        <h3>2</h3>
+                            <p>Постов</p>
+                        </div>
+                        <div>
+                            <h3>1.2K</h3>
+                            <p>Подписчиков</p>
+                        </div>
+                        <div>
+                            <h3>300</h3>
+                            <p>Подписок</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Post Grid -->
+                <div class="post-grid">
+                    <!-- Post 1 -->
+                    <div class="post" onclick="openModal('photo_5341695330942575101_y.jpg', '2 МЕСТО на гонке!!')">
+                        <img src="photo_5341695330942575101_y.jpg" alt="Post Image">
+                    </div>
+                    <!-- Post 2 -->
+                    <div class="post" onclick="openModal('photo_5321560318100495823_y.jpg', 'Старт пролога на огненом велосипеде)')">
+                        <img src="photo_5321560318100495823_y.jpg" alt="Post Image">
+                    </div>
+                    <!-- Add more posts here as needed -->
+                </div>
+            </div>
+        </div>
+    
+        <!-- Modal -->
+        <div class="modal" id="modal" onclick="closeModal()">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <img id="modal-image" src="" alt="Post Image">
+                <p id="modal-caption"></p>
+            </div>
+        </div>
+    
+        <script>
+            function openModal(imageSrc, caption) {
+                document.getElementById('modal-image').src = imageSrc;
+                document.getElementById('modal-caption').textContent = caption;
+                document.getElementById('modal').style.display = 'flex';
+            }
+    
+            function closeModal() {
+                document.getElementById('modal').style.display = 'none';
+            }
+    
+            // Theme toggling functionality
+            document.addEventListener('DOMContentLoaded', function () {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'light') {
+                    document.body.classList.add('light-theme');
+                }
+            });
+        </script>
+    </body>
+    </html>
+    

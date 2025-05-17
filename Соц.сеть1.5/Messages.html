@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIVE - Сообщения</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212; /* Темный фон страницы */
+            color: #e0e0e0; /* Светлый текст */
+            display: flex;
+            justify-content: center;
+        }
+        /* Header Styles */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #1e1e1e; /* Темный фон шапки */
+            border-bottom: 1px solid #333; /* Темная граница */
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-sizing: border-box;
+            justify-content: center;
+        }
+        .header .logo {
+            display: flex;
+            align-items: center;
+        }
+        .header .logo img {
+            height: 30px;
+            margin-right: 10px;
+        }
+        .header .logo span {
+            font-size: 18px;
+            color: #e0e0e0; /* Светлый цвет текста логотипа */
+        }
+        .header .sections {
+            display: flex;
+            align-items: center;
+            margin: 0 410px;
+        }
+        .header .sections .section {
+            margin: 0 10px;
+        }
+        .header .sections .section a {
+            color: #e0e0e0; /* Светлый цвет текста разделов */
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .header .sections .section a:hover {
+            background-color: #333; /* Темная подложка при наведении */
+            color: #e0e0e0; /* Цвет текста при наведении */
+        }
+        .header .icons img {
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 80px; /* Отступ для контента под фиксированной шапкой */
+        }
+        .sidebar {
+            width: 250px;
+            padding: 20px;
+            background-color: #1e1e1e; /* Темный фон для боковой панели */
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            box-sizing: border-box;
+            position: sticky;
+            top: 80px; /* Для фиксации sidebar при прокрутке */
+        }
+        .sidebar a {
+            color: #e0e0e0;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .sidebar a:hover {
+            background-color: #333;
+        }
+        .sidebar .icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+        .message-list {
+            display: flex;
+            flex-direction: column;
+        }
+        .message-item {
+            background-color: #1e1e1e;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .message-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        .message-details {
+            flex: 1;
+        }
+        .message-details .user-name {
+            font-weight: bold;
+        }
+        .message-details .message-preview {
+            color: #a0a0a0;
+        }
+        .right-sidebar {
+            width: 250px;
+            padding: 20px;
+        }
+
+        /* Диалоговое окно */
+        .modal {
+            display: none; /* Скрыто по умолчанию */
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 100%;
+            color: #e0e0e0;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-header .close {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .modal-body {
+            margin-top: 10px;
+        }
+        .message-input {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .message-input input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #333;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .message-input button {
+            padding: 10px 15px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #e0e0e0;
+            cursor: pointer;
+        }
+        .message-input button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo">
+            <a href="#"><img src="logotip-removebg-preview.png" alt="Logo"></a>
+            <span>LIVE</span>
+        </div>
+        <div class="sections">
+            <div class="section">
+                <a href="#recommendations">Рекомендации</a>
+            </div>
+            <div class="section">
+                <a href="#for-you">Для вас</a>
+            </div>
+        </div>
+        <div class="icons">
+            <a href="#profile">
+                <img class="ProfilLogo" src="3d-render-of-avatar-character_23-2150611746.jpg" alt="Profile Image">
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <a href="Main.php"><span class="icon">🏠</span> Home</a>
+            <a href="#"><span class="icon">🔍</span> Explore</a>
+            <a href="Messages.html"><span class="icon">✉️</span> Messages</a>
+            <a href="#"><span class="icon">🔖</span> Bookmarks</a>
+            <a href="Profile.html"><span class="icon">👤</span> Profile</a>
+            <a href="Settings.html"><span class="icon">⚙️</span> Settings</a>
+            <a href="#"><span class="icon">🔽</span> More</a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <h2>Сообщения</h2>
+            <div class="message-list">
+                <!-- Message 1 -->
+                <div class="message-item" onclick="openModal()"><a href="chat.html">
+                    <img src="3d-render-of-avatar-character_23-2150611746.jpg" alt="Profile Image">
+                    <div class="message-details">
+                        <div class="user-name">Влад Чумаченко</div>
+                        <div class="message-preview">Отправил вам сообщение</div>
+                </a></div>
+                </div>
+
+                <!-- Add more messages as needed -->
+            </div>
+        </div>
+
+        <!-- Right Sidebar (Optional for future use) -->
+        <div class="right-sidebar">
+            <!-- You can add additional widgets or information here -->
+        </div>
+    </div>
+
+    <!-- Диалоговое окно -->
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><a href="chat.html">
+                <span class="user-name">Влад Чумаченко</span>
+                <span class="close" onclick="closeModal()">&times;</span></a>
+            </div>
+            <div class="modal-body">
+                <div id="messageHistory" class="message-history">
+                    <!-- История сообщений будет отображаться здесь -->
+                </div>
+                <div class="message-input">
+                    <input id="messageInput" type="text" placeholder="Введите ваше сообщение...">
+                    <button onclick="sendMessage()">Отправить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+</html>

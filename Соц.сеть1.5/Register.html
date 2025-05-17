@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIVE - Регистрация</title>
+    <style>
+        /* CSS Variables for Theme Colors */
+        :root {
+            --bg-color: #121212; /* Dark background */
+            --text-color: #e0e0e0; /* Dark text color */
+            --container-bg-color: #1e1e1e; /* Dark container */
+            --cube-color: #e0e0e0; /* Dark cube color */
+        }
+
+        /* Light Theme Variables */
+        .light-theme {
+            --bg-color: #ffffff; /* Light background */
+            --text-color: #333333; /* Light text color */
+            --container-bg-color: #f0f0f0; /* Light container */
+            --cube-color: #333333; /* Light cube color */
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        /* Animation Container */
+        .animation-container {
+            position: relative;
+            width: 400px;
+            height: 200px;
+            background-color: var(--container-bg-color);
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            transition: background-color 0.5s;
+        }
+        
+        /* Animated Cube */
+        .cube {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: var(--cube-color);
+            border-radius: 5px;
+            transition: transform 0.5s ease, background-color 0.5s;
+        }
+
+        /* Registration Container */
+        .registration-container {
+            background-color: var(--container-bg-color);
+            padding: 40px;
+            border-radius: 10px;
+            width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.5s;
+        }
+
+        .registration-container h2 {
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background-color: #333;
+            color: var(--text-color);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #555;
+        }
+
+        .form-group input[type="submit"] {
+            background-color: #333;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-group input[type="submit"]:hover {
+            background-color: #444;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-footer a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .form-footer a:hover {
+            color: #888;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: var(--cube-color);
+            color: var(--bg-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.5s, color 0.5s;
+            z-index: 1000; /* Ensure it appears above other elements */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Theme Toggle Button -->
+<button class="theme-toggle" id="theme-toggle">Светлая тема</button>
+
+<!-- Animation Container -->
+<div class="animation-container" id="animation-container">
+    <div class="cube" id="cube"></div>
+</div>
+
+<div class="registration-container">
+    <h2>Регистрация</h2>
+    <form action="index.php" method="post">
+        <div class="form-group">
+            <label for="imya">Имя пользователя</label>
+            <input type="text" id="imya" name="imya" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Электронная почта</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="parol">Пароль</label>
+            <input type="parol" id="parol" name="parol" required>
+        </div>
+        
+        <div class="form-group">
+            <input type="submit" value="Зарегистрироваться">
+        </div>
+    </form>
+    <div class="form-footer">
+        Уже есть аккаунт? <a href="login.html">Войти</a>
+    </div>
+</div>
+
+<script>
+    const themeToggleBtn = document.getElementById("theme-toggle");
+    const cube = document.getElementById("cube");
+
+    // Toggle light and dark theme
+    themeToggleBtn.addEventListener("click", () => {
+        document.body.classList.toggle("light-theme");
+
+        // Update button text based on the current theme
+        if (document.body.classList.contains("light-theme")) {
+            themeToggleBtn.textContent = "Темная тема";
+        } else {
+            themeToggleBtn.textContent = "Светлая тема";
+        }
+    });
+
+    // Generate random color
+    function getRandomColor() {
+        const colors = ["#ff4d4d", "#ff944d", "#ffe34d", "#4dff4d", "#4dcaff", "#9a4dff"];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    // Cube jump to random position within container
+    function moveCubeRandomly() {
+        const container = document.getElementById("animation-container");
+        const maxX = container.clientWidth - cube.clientWidth;
+        const maxY = container.clientHeight - cube.clientHeight;
+        
+        // Generate random positions within container bounds
+        const randomX = Math.random() * maxX;
+        const randomY = Math.random() * maxY;
+
+        // Move cube and change color within bounds
+        cube.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        cube.style.backgroundColor = getRandomColor();
+    }
+
+    // Move cube and change color on any key press
+    document.addEventListener("keydown", moveCubeRandomly);
+</script>
+</body>
+</html>

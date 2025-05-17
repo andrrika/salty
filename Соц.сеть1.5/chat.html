@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат с другом</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212; /* Темный фон */
+            color: #e0e0e0; /* Светлый текст */
+            display: flex;
+            flex-direction: column; /* Вертикальное направление */
+            align-items: center; /* Центрирование по горизонтали */
+            height: 100vh; /* Высота страницы */
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #1e1e1e; /* Темный фон шапки */
+            border-bottom: 1px solid #333; /* Темная граница */
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-sizing: border-box;
+            justify-content: center;
+        }
+
+        .header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .logo img {
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .header .user-name {
+            margin-left:500px;
+            font-size: 20px;
+            color: #e0e0e0;
+        }
+
+        /* Контейнер для чата */
+        .container {
+            display: flex;
+            width: 100%;
+            margin-top: 80px; /* Отступ для шапки */
+            flex: 1; /* Занимает все доступное пространство */
+            justify-content: center; /* Центрирование по горизонтали */
+        }
+
+        .sidebar {
+            width: 250px;
+            padding: 20px;
+            background-color: #1e1e1e; /* Темный фон для боковой панели */
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 80px); /* Высота боковой панели */
+            box-sizing: border-box;
+        }
+
+        .sidebar a {
+            color: #e0e0e0;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .sidebar a:hover {
+            background-color: #333;
+        }
+
+        /* Контейнер для сообщений */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            margin: 0 auto; /* Центрирование контейнера */
+            max-width: 600px; /* Максимальная ширина для чата */
+            overflow-y: auto; /* Прокрутка */
+            background-color: #121212; /* Темный фон чата */
+            border-radius: 10px; /* Закругление углов */
+            margin-bottom: 20px; /* Отступ внизу для поля ввода */
+            align-items: center; /* Центрирование содержимого по горизонтали */
+        }
+
+        .message {
+            margin-bottom: 10px;
+            width: 100%; /* Заполнение ширины */
+            display: flex; /* Используем flexbox для сообщений */
+            justify-content: flex-start; /* По умолчанию выравниваем по левому краю */
+        }
+
+        .message.user {
+            justify-content: flex-end; /* Выравниваем по правому краю для пользователя */
+        }
+
+        .message .text {
+            display: inline-block;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 70%;
+            word-wrap: break-word; /* Перенос слов */
+        }
+
+        .message.user .text {
+            background-color: #0084ff;
+            color: white;
+        }
+
+        .message.friend .text {
+            background-color: #e5e5ea;
+            color: black;
+        }
+
+        /* Контейнер для ввода */
+        .input-container {
+            display: flex;
+            justify-content: center; /* Центрирование содержимого */
+            padding: 10px;
+            background-color: #1e1e1e; /* Темный фон для поля ввода */
+            position: fixed; /* Фиксированное положение */
+            bottom: 0; /* Привязать к низу экрана */
+            left: 0;
+            right: 0; /* Занять всю ширину */
+            border-top: 1px solid #ccc; /* Визуальное разделение */
+            height: 50px; /* Высота контейнера */
+            max-width: 600px; /* Максимальная ширина для ввода */
+            margin: 0 auto; /* Центрирование контейнера */
+            border-radius: 10px; /* Закругление углов */
+        }
+
+        .input-container input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            margin-right: 10px;
+            background-color: #1e1e1e; /* Темный фон для поля ввода */
+            color: #e0e0e0; /* Цвет текста в поле */
+        }
+
+        .input-container button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 20px;
+            background-color: #0084ff;
+            color: white;
+            cursor: pointer;
+        }
+
+        .input-container button:hover {
+            background-color: #005bb5;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">
+            <a href="#"><img src="logotip-removebg-preview.png" alt="Logo"></a>
+            <span>LIVE</span>
+        </div>
+        <div class="user-name">Чат с другом</div>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <a href="Новый текстовый документ.html"><span class="icon">🏠</span> Home</a>
+            <a href="#"><span class="icon">🔍</span> Explore</a>
+            <a href="Messages.html"><span class="icon">✉️</span> Messages</a>
+            <a href="#"><span class="icon">🔖</span> Bookmarks</a>
+            <a href="Profile.html"><span class="icon">👤</span> Profile</a>
+            <a href="Settings.html"><span class="icon">⚙️</span> Settings</a>
+            <a href="#"><span class="icon">🔽</span> More</a>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="chat-container" id="chatContainer">
+            <!-- Сообщения будут добавлены здесь -->
+            <div class="message friend">
+                <div class="text">Привет! Как дела?</div>
+            </div>
+            <div class="message user">
+                <div class="text">Все отлично, а у тебя?</div>
+            </div>
+            <div class="message friend">
+                <div class="text">Тоже хорошо! Что нового?</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="input-container">
+        <input type="text" id="messageInput" placeholder="Введите сообщение...">
+        <button id="sendButton">Отправить</button>
+    </div>
+
+    <script>
+        const chatContainer = document.getElementById('chatContainer');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+
+        // Функция для добавления сообщения в чат
+        function addMessage(text, isUser = true) {
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${isUser ? 'user' : 'friend'}`;
+            messageElement.innerHTML = `<div class="text">${text}</div>`;
+            chatContainer.appendChild(messageElement);
+            chatContainer.scrollTop = chatContainer.scrollHeight; // Прокрутка вниз
+        }
+
+        // Обработчик нажатия кнопки "Отправить"
+        sendButton.addEventListener('click', () => {
+            const messageText = messageInput.value.trim();
+            if (messageText) {
+                addMessage(messageText, true); // Добавить сообщение пользователя
+                messageInput.value = ''; // Очистить поле ввода
+
+                // Здесь можно добавить логику для отправки сообщения на сервер и получения ответа
+                setTimeout(() => {
+                    // Симуляция получения ответа от собеседника
+                    addMessage(`Ответ на: ${messageText}`, false);
+                }, 1000);
+            }
+        });
+
+        // Обработчик нажатия клавиши Enter для отправки сообщения
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+    </script>
+
+</body>
+</html>
