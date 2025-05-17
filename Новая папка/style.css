@@ -1,0 +1,94 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #333;
+  color: #fff;
+}
+
+header .logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+}
+
+nav ul li {
+  margin-right: 20px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.signup-btn {
+  background-color: #ff8c00;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.hero {
+  background: url('fitness-bg.jpg') center/cover no-repeat;
+  height: 100vh;
+  color: #fff;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.hero h1 {
+  font-size: 48px;
+}
+
+.benefits {
+  display: flex;
+  justify-content: space-around;
+  padding: 40px 20px;
+  background-color: #f4f4f4;
+}
+
+.benefit {
+  text-align: center;
+}
+
+.program, .reviews, .pricing {
+  padding: 40px 20px;
+}
+
+.pricing-card {
+  background-color: #f9f9f9;
+  padding: 20px;
+  text-align: center;
+  margin: 10px;
+  border-radius: 8px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: #fff;
+}
+
+footer .socials a {
+  color: #fff;
+  margin-right: 10px;
+  text-decoration: none;
+}

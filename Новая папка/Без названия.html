@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FitnessPro - Онлайн-курсы по фитнесу</title>
+<style>
+  /* Базовые настройки */
+body {
+  font-family: 'Poppins', Arial, sans-serif;
+  background-color: #f7f7f7;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Шапка */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background: linear-gradient(90deg, #333, #444);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header .logo img {
+  width: 50px;
+}
+
+nav ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #ff8c00;
+}
+
+.signup-btn {
+  background: #ff8c00;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.signup-btn:hover {
+  background: #e07b00;
+  transform: scale(1.1);
+}
+
+/* Главный экран */
+.hero {
+  background: url('3.jpg') center/cover no-repeat;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  background-attachment: fixed;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.learn-more-btn {
+  background: #ff8c00;
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.learn-more-btn:hover {
+  background-color: #e07b00;
+  transform: scale(1.1);
+}
+
+/* Преимущества */
+.benefits {
+  background-color: #f9f9f9;
+  padding: 60px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.benefit {
+  text-align: center;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.benefit:hover {
+  transform: translateY(-10px);
+}
+
+.benefit img {
+  width: 80px;
+  margin-bottom: 20px;
+}
+
+.benefit h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+/* Отзывы */
+.reviews {
+  background: #fff;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.reviews h2 {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+}
+
+.review {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  object-fit: cover;
+}
+
+.review span {
+  display: block;
+  margin-top: 10px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Стили для галереи */
+.gallery {
+  padding: 20px;
+  text-align: center;
+}
+
+.gallery h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Общее оформление для элементов галереи */
+.gallery-item {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 10px; /* Округлые углы для изображений */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Оформление самих изображений */
+.gallery-item img {
+  width: 100%;
+  height: 250px; /* Фиксированная высота */
+  object-fit: cover; /* Изображение будет обрезано по центру, сохраняя пропорции */
+  transition: transform 0.3s ease;
+}
+
+/* Эффект при наведении */
+.gallery-item:hover img {
+  transform: scale(1.1);
+}
+
+/* Стили для модального окна */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  overflow: auto;
+  padding-top: 60px;
+}
+
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+.caption {
+  text-align: center;
+  font-size: 1.5em;
+  color: white;
+  padding: 10px 0;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+/* Подвал */
+footer {
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+footer a {
+  color: #ff8c00;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+/* Стили для иконки чат-бота */
+.chat-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: #ff8c00;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.chat-icon img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  color: white;
+}
+
+/* Стили для окна чат-бота */
+.chatbot {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 350px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 20px;
+  display: none;
+  z-index: 1000;
+}
+
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+}
+
+.chat-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.message {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.bot-message {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.user-message {
+  background-color: #ff8c00;
+  color: white;
+  text-align: right;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.buttonChatbot {
+  background-color: #ff8c00;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+}
+.Button_price{
+  background-color: #ff8c00;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 15%;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #e07b00;
+}
+.calculator {
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.calculator label {
+  font-size: 16px;
+  margin: 10px 0 5px;
+  display: block;
+}
+
+.calculator input, .calculator select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.calculator button {
+  background-color: #ff8c00;
+  color: white;
+  padding: 15px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.calculator button:hover {
+  background-color: #e07b00;
+}
+
+#result {
+  margin-top: 20px;
+  display: none;
+}
+
+#result p {
+  font-size: 18px;
+  color: #333;
+}
+
+.offer-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.offer-content {
+  margin-left:50px;
+  max-width: 50%;
+}
+
+.offer-content h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.offer-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.icon {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  background-color: #eaeaff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+}
+
+.icon img {
+  width: 24px;
+  height: 24px;
+}
+
+.text h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.text p {
+  font-size: 14px;
+  margin: 5px 0 0;
+}
+
+.offer-image {
+  max-width: 40%;
+}
+
+.offer-image img {
+  width: 100%;
+  border-radius: 15px;
+  object-fit: cover;
+}
+
+.Kal{
+  margin-left:480px;
+}
+</style>
+</head>
+<body>
+
+  <!-- Шапка (Header) -->
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="FitnessPro Logo">
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#home">Главная</a></li>
+        <li><a href="#benefits">Преимущества</a></li>
+        <li><a href="#program">Программа курса</a></li>
+        <li><a href="#reviews">Отзывы</a></li>
+        <li><a href="#calculator">Калькулятор</a></li> <!-- Новый раздел -->
+        <li><a href="#contact">Контакты</a></li>
+      </ul>
+    </nav>
+    <button class="signup-btn" onclick="openSignupModal()">Записаться</button> <!-- Обработчик для открытия модального окна -->
+  </header>
+
+
+
+  <!-- Главный экран (Hero Section) -->
+  <section id="home" class="hero">
+    <h1>Ты готов начать путь к лучшей версии себя?</h1>
+    <p>Независимо от твоего уровня — с нами ты сможешь достичь желаемых результатов!</p>
+    <button class="learn-more-btn" onclick="window.location.href='#program'">Узнать больше</button>
+  </section>
+
+    <!-- Галерея -->
+<section id="gallery" class="gallery">
+  <h2>Галерея</h2>
+  <div class="gallery-grid">
+    <!-- Миниатюры изображений -->
+    <div class="gallery-item" onclick="openModal(1)">
+      <img src="trenirovka-v-zale.jpg" alt="Image 1" />
+    </div>
+    <div class="gallery-item" onclick="openModal(2)">
+      <img src="tabata.jpg" alt="Image 2" />
+    </div>
+    <div class="gallery-item" onclick="openModal(3)">
+      <img src="___.jpg" alt="Image 3" />
+    </div>
+    <div class="gallery-item" onclick="openModal(4)">
+      <img src="kak-ponyat-kakie-trenirovki-nuzhny-imenno-vam_16503669841196487696.jpg" alt="Image 4" />
+    </div>
+    <div class="gallery-item" onclick="openModal(4)">
+      <img src="fitness-hall-with-sport-bikes-treadmill-it-health-concept_73899-7135.jpg" alt="Image 4" />
+    </div>
+  </div>
+</section>
+
+<!-- Модальное окно для просмотра изображения -->
+<div id="modal" class="modal" onclick="closeModal()">
+  <span class="close">&times;</span>
+  <img id="modalImg" class="modal-content" />
+  <div id="caption" class="caption"></div>
+</div>
+
+  <!-- Преимущества (Benefits) -->
+  <section id="benefits" class="benefits">
+    <div class="benefit">
+      <img src="man.png" alt="Индивидуальный подход">
+      <h3>Индивидуальный подход</h3>
+      <p>Мы понимаем, что каждый человек уникален. Мы предложим тебе тренировочную программу, учитывая твой уровень, цели и график.</p>
+    </div>
+    <div class="benefit">
+      <img src="24-hours.png" alt="Доступ 24/7">
+      <h3>Доступ 24/7</h3>
+      <p>Все материалы курса доступны в любое время, ты можешь учиться и тренироваться тогда, когда тебе удобно.</p>
+    </div>
+    <div class="benefit">
+      <img src="self-motivation.png" alt="Прогресс и мотивация">
+      <h3>Прогресс и мотивация</h3>
+      <p>Каждую неделю ты будешь отслеживать свой прогресс, и наши тренеры будут мотивировать тебя продолжать двигаться вперед.</p>
+    </div>
+  </section>
+
+
+  <div class="offer-section">
+    <div class="offer-content">
+      <h2>Мы вам предлагаем</h2>
+      <div class="offer-item">
+        <div class="icon">
+          <img src="gym.png" alt="Деньги">
+        </div>
+        <div class="text">
+          <h3>Курсы с тренером</h3>
+          <p>Просто текст</p>
+        </div>
+      </div>
+      <div class="offer-item">
+        <div class="icon">
+          <img src="restaurant.png" alt="Код">
+        </div>
+        <div class="text">
+          <h3>Разберем ваш рацион питания</h3>
+          <p>Просто текст</p>
+        </div>
+      </div>
+      <div class="offer-item">
+        <div class="icon">
+          <img src="vitamin.png" alt="Помощь">
+        </div>
+        <div class="text">
+          <h3>Тренер поможет вам с профессиональным питанием</h3>
+          <p>Вы можете в любое время обратиться к нам и получите помощь от специалиста</p>
+        </div>
+      </div>
+    </div>
+    <div class="offer-image">
+      <img src="image-removebg-preview.png" alt="Человек с ноутбуком">
+    </div>
+  </div>
+
+  
+  <!-- Отзывы (Reviews) -->
+  <section id="reviews" class="reviews">
+    <h2>Отзывы наших клиентов</h2>
+    <div class="review">
+      <img src="images1.jpeg" alt="Фото клиента">
+      <p>"За 3 месяца на курсе я сбросила 10 кг и почувствовала себя гораздо энергичнее!"</p>
+      <p>★★★★★</p>
+      <span>— Алина К., 3 месяца занятий</span>
+    </div>
+    <div class="review">
+      <img src="b7bbd4ec437b73c3c2c181bfbf74861b.jpg" alt="Фото клиента">
+      <p>"Этот курс помог мне наладить режим тренировок и питания. Я стал сильнее и увереннее в себе!"</p>
+      <p>★★★★★</p>
+      <span>— Дмитрий П., 6 месяцев занятий</span>
+    </div>
+  </section>
+
+
+<h2 class="Kal">Хочешь проверить на сколько ты в форме?</h2>
+  <section id="calculator" class="calculator">
+    <h2>Калькулятор прогресса</h2>
+    <p>Заполни данные, чтобы получить результаты!</p>
+    
+    <form id="progressForm">
+      <label for="weight">Ваш вес (кг):</label>
+      <input type="number" id="weight" required>
+      
+      <label for="height">Ваш рост (см):</label>
+      <input type="number" id="height" required>
+      
+      <label for="age">Ваш возраст:</label>
+      <input type="number" id="age" required>
+      
+      <label for="activity">Уровень активности:</label>
+      <select id="activity">
+        <option value="1.2">Минимум (сидячий образ жизни)</option>
+        <option value="1.375">Низкий (легкие тренировки)</option>
+        <option value="1.55">Средний (умеренные тренировки)</option>
+        <option value="1.725">Высокий (интенсивные тренировки)</option>
+        <option value="1.9">Очень высокий (профессиональные тренировки)</option>
+      </select>
+      
+      <button type="button" onclick="calculateProgress()">Рассчитать</button>
+    </form>
+    
+    <div id="result">
+      <h3>Ваш результат:</h3>
+      <p id="bmiResult"></p>
+      <p id="calorieResult"></p>
+      <p id="recommendation"></p>
+    </div>
+  </section>
+
+
+  <section id="pricing" class="pricing">
+    <div class="benefit">
+      <h3>Базовый</h3>
+      <p>10,000 тг/мес</p>
+      <ul>
+        <li>Доступ к видеоурокам</li>
+        <li>Еженедельный отчет о прогрессе</li>
+      </ul>
+      <button class="Button_price" onclick="window.location.href='#contact'">Выбрать</button>
+    </div>
+    <div class="benefit">
+      <h3>Продвинутый</h3>
+      <p>20,000 тг/мес</p>
+      <ul>
+        <li>Все из Базового пакета</li>
+        <li>Персональная консультация с тренером раз в месяц</li>
+      </ul>
+      <button class="Button_price" onclick="window.location.href='#contact'">Выбрать</button>
+    </div>
+    <div class="benefit">
+      <h3>VIP</h3>
+      <p>30,000 тг/мес</p>
+      <ul>
+        <li>Все из Продвинутого пакета</li>
+        <li>Доступ к эксклюзивным вебинарам</li>
+      </ul>
+      <button class="Button_price" onclick="window.location.href='#contact'">Выбрать</button>
+    </div>
+  </section>
+
+  <!-- Иконка чат-бота -->
+<div id="chatIcon" class="chat-icon" onclick="toggleChat()">
+  <img src="phone-call.png" alt="Chat Icon" />
+</div>
+
+<!-- Окно чат-бота -->
+<section id="chatbot" class="chatbot">
+  <div id="chatWindow" class="chat-window">
+    <div id="chatMessages" class="chat-messages">
+      <div class="message bot-message">
+        <span>Привет! Я твой персональный чат-бот. Чем могу помочь?</span>
+      </div>
+    </div>
+  </div>
+  <input type="text" id="userInput" placeholder="Введите сообщение..." />
+  <button id="sendMessage" class="buttonChatbot" onclick="sendMessage()">Отправить</button>
+</section>
+
+
+  <!-- Подвал (Footer) -->
+  <footer>
+    <p>© 2025 FitnessPro. Все права защищены.</p>
+    <p>Email: info@fitnesspro.kz | Телефон: +7 701 123 45 67</p>
+    <div class="socials">
+      <a href="#">Instagram</a>
+      <a href="#">Facebook</a>
+    </div>
+    <p><a href="#">Условия использования</a> | <a href="#">Политика конфиденциальности</a></p>
+  </footer>
+
+</body>
+<script>
+  document.querySelector('.learn-more-btn').addEventListener('click', () => {
+  alert('Будет добавлена функция перехода на подробную информацию!');
+});
+
+function calculateProgress() {
+  // Получаем значения из формы
+  const weight = parseFloat(document.getElementById("weight").value);
+  const height = parseFloat(document.getElementById("height").value);
+  const age = parseInt(document.getElementById("age").value);
+  const activity = parseFloat(document.getElementById("activity").value);
+
+  // Проверяем, что все данные введены корректно
+  if (!weight || !height || !age) {
+    alert("Пожалуйста, заполните все поля!");
+    return;
+  }
+
+  // Вычисление ИМТ
+  const bmi = weight / ((height / 100) ** 2);
+  let bmiCategory = "";
+  if (bmi < 18.5) {
+    bmiCategory = "Недостаточный вес";
+  } else if (bmi >= 18.5 && bmi < 24.9) {
+    bmiCategory = "Нормальный вес";
+  } else if (bmi >= 25 && bmi < 29.9) {
+    bmiCategory = "Избыточный вес";
+  } else {
+    bmiCategory = "Ожирение";
+  }
+
+  // Рекомендации по калориям
+  let calorieRequirement = 0;
+  if (age < 18) {
+    calorieRequirement = 10 * weight + 6.25 * height - 5 * age + 5; // для мальчиков
+  } else if (age >= 18) {
+    calorieRequirement = 10 * weight + 6.25 * height - 5 * age - 161; // для девушек
+  }
+  calorieRequirement *= activity;
+
+  // Отображаем результаты
+  document.getElementById("bmiResult").innerText = `ИМТ: ${bmi.toFixed(2)} (${bmiCategory})`;
+  document.getElementById("calorieResult").innerText = `Твои рекомендации по калориям: ${Math.round(calorieRequirement)} ккал/день`;
+  
+  // Персонализированные рекомендации
+  let recommendation = "";
+  if (bmi < 18.5) {
+    recommendation = "Рекомендуем увеличить потребление калорий и сосредоточиться на силовых тренировках.";
+  } else if (bmi >= 18.5 && bmi < 24.9) {
+    recommendation = "Отлично! Поддерживай активный образ жизни и следи за питанием.";
+  } else if (bmi >= 25 && bmi < 29.9) {
+    recommendation = "Тебе стоит уменьшить потребление калорий и увеличить физическую активность.";
+  } else {
+    recommendation = "Рекомендуем проконсультироваться с врачом и следовать рекомендациям по снижению веса.";
+  }
+
+  document.getElementById("recommendation").innerText = recommendation;
+  
+  // Показываем результат
+  document.getElementById("result").style.display = "block";
+}
+
+// Функция для открытия и закрытия чат-бота
+function toggleChat() {
+  const chatWindow = document.getElementById("chatbot");
+  if (chatWindow.style.display === "none" || chatWindow.style.display === "") {
+    chatWindow.style.display = "block";
+  } else {
+    chatWindow.style.display = "none";
+  }
+}
+
+// Функция для отправки сообщения
+function sendMessage() {
+  const userInput = document.getElementById("userInput").value;
+  if (!userInput.trim()) return;
+
+  // Добавляем сообщение пользователя в чат
+  const userMessage = document.createElement("div");
+  userMessage.classList.add("message", "user-message");
+  userMessage.innerHTML = `<span>${userInput}</span>`;
+  document.getElementById("chatMessages").appendChild(userMessage);
+  
+  // Очищаем поле ввода
+  document.getElementById("userInput").value = "";
+
+  // Ответ бота
+  let botResponse = getBotResponse(userInput.toLowerCase());
+  
+  // Добавляем ответ бота в чат
+  const botMessage = document.createElement("div");
+  botMessage.classList.add("message", "bot-message");
+  botMessage.innerHTML = `<span>${botResponse}</span>`;
+  document.getElementById("chatMessages").appendChild(botMessage);
+
+  // Прокручиваем чат вниз
+  document.getElementById("chatWindow").scrollTop = document.getElementById("chatWindow").scrollHeight;
+}
+
+// Функция для получения ответа от бота
+function getBotResponse(userMessage) {
+  if (userMessage.includes("привет") || userMessage.includes("здравствуй")) {
+    return "Привет! Чем могу помочь?";
+  } else if (userMessage.includes("курс") || userMessage.includes("тренировка")) {
+    return "Наши курсы включают тренировки для всех уровней. Вы можете выбрать подходящий курс на главной странице.";
+  } else if (userMessage.includes("питание") || userMessage.includes("диета")) {
+    return "Мы предлагаем индивидуальные программы питания, которые включают разнообразные блюда для достижения ваших целей.";
+  } else if (userMessage.includes("стоимость") || userMessage.includes("цена")) {
+    return "Стоимость курса зависит от выбранного пакета. Пожалуйста, посетите раздел 'Цены' на сайте для подробной информации.";
+  } else if (userMessage.includes("пока") || userMessage.includes("до свидания")) {
+    return "До свидания! Если у вас возникнут вопросы, всегда можете обратиться.";
+  } else {
+    return "Извините, я не совсем понял ваш вопрос. Могу ли я помочь чем-то еще?";
+  }
+}
+// Функция для открытия модального окна
+function openModal(imageIndex) {
+  const modal = document.getElementById("modal");
+  const modalImg = document.getElementById("modalImg");
+  const caption = document.getElementById("caption");
+
+  // Массив с изображениями для модального окна
+  const images = [
+    "image1.jpg",
+    "image2.jpg",
+    "image3.jpg",
+    "image4.jpg"
+  ];
+
+  const captions = [
+    "Тренировка на выносливость",
+    "Результаты соревнований",
+    "Мой новый проект",
+    "Этап соревнований"
+  ];
+
+  modal.style.display = "block";
+  modalImg.src = images[imageIndex - 1];
+  caption.textContent = captions[imageIndex - 1];
+}
+
+// Функция для закрытия модального окна
+function closeModal() {
+  const modal = document.getElementById("modal");
+  modal.style.display = "none";
+}
+</script>
+</html>
